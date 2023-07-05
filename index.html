@@ -1,18 +1,117 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Supplies Tracking App</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vuetify@2.5.8/dist/vuetify.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .dashboard {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1, h2, h3, p {
+      margin: 0;
+    }
+    .display-1 {
+      font-size: 32px;
+      font-weight: bold;
+    }
+    .display-2 {
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .display-3 {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .subheading {
+      font-size: 14px;
+      color: #777;
+    }
+    .card {
+      background-color: #f5f5f5;
+      border-radius: 5px;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+  </style>
 </head>
 <body>
-  <div id="app"></div>
-  <script src="https://unpkg.com/vue@next"></script>
-  <script src="https://unpkg.com/@vuetify/vue3-compatible"></script>
-  <script src="https://unpkg.com/vuetify@2.5.8"></script>
-  <script src="app.js"></script>
+  <div class="dashboard">
+    <div class="card">
+      <h1 class="display-1">Supplies Tracking App Dashboard</h1>
+    </div>
+    <div class="card">
+      <h2 class="display-2">Supplies Summary</h2>
+      <div class="card">
+        <h3 class="display-3">Total Supplies</h3>
+        <p class="subheading" id="totalSupplies"></p>
+      </div>
+      <div class="card">
+        <h3 class="display-3">Available Supplies</h3>
+        <p class="subheading" id="availableSupplies"></p>
+      </div>
+      <div class="card">
+        <h3 class="display-3">Out of Stock Supplies</h3>
+        <p class="subheading" id="outOfStockSupplies"></p>
+      </div>
+    </div>
+    <div class="card">
+      <h2 class="display-2">Supplies List</h2>
+      <ul id="suppliesList"></ul>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Dummy data for supplies
+      var supplies = [
+        { id: 1, name: 'Pen', quantity: 50 },
+        { id: 2, name: 'Notebook', quantity: 20 },
+        { id: 3, name: 'Stapler', quantity: 10 },
+      ];
+
+      // Function to calculate supplies summary
+      function calculateSuppliesSummary() {
+        var totalSupplies = supplies.length;
+        var availableSupplies = supplies.filter(function(supply) {
+          return supply.quantity > 0;
+        }).length;
+        var outOfStockSupplies = supplies.filter(function(supply) {
+          return supply.quantity === 0;
+        }).length;
+
+        document.getElementById('totalSupplies').textContent = totalSupplies;
+        document.getElementById('availableSupplies').textContent = availableSupplies;
+        document.getElementById('outOfStockSupplies').textContent = outOfStockSupplies;
+      }
+
+      // Function to render supplies list
+      function renderSuppliesList() {
+        var suppliesList = document.getElementById('suppliesList');
+        suppliesList.innerHTML = '';
+
+        supplies.forEach(function(supply) {
+          var listItem = document.createElement('li');
+          var nameElement = document.createElement('h3');
+          var quantityElement = document.createElement('p');
+
+          nameElement.textContent = supply.name;
+          quantityElement.textContent = 'Quantity: ' + supply.quantity;
+
+          listItem.appendChild(nameElement);
+          listItem.appendChild(quantityElement);
+          suppliesList.appendChild(listItem);
+        });
+      }
+
+      calculateSuppliesSummary();
+      renderSuppliesList();
+    });
+  </script>
 </body>
 </html>
